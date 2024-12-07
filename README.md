@@ -1,0 +1,1 @@
+Hi, This is Abad Naseer's Assignment. Deployment of a containerized application using docker and managing containers with kubernetes.

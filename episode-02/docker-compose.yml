@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb1
+    ports:
+      - "27017:27017"  # Exposes MongoDB on the local machine
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app_network
+
+  backend:
+    build:
+      context: ./backend  # Path to the backend folder
+    container_name: backend1
+    ports:
+      - "8002:8002"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb+srv://abadnaseerfast:visamanagement@visamanagement.velsm.mongodb.net/?retryWrites=true&w=majority&appName=VisaManagement  # MongoDB connection string
+    networks:
+      - app_network
+
+  frontend:
+    build:
+      context: ./fronted  # Path to the frontend folder
+    container_name: frontend1
+    ports:
+      - "8003:80"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+
+volumes:
+  mongo_data:
+
+networks:
+  app_network:
